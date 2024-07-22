@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Register</title>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="sign.png" alt="Logo" class="logo">
+    </div>
+    <form class="login-form" id="registerForm" onsubmit="handleRegister(event)">
+      <h2>Register</h2>
+      <div class="form-group">
+        <label for="regUsername">Username</label>
+        <input type="text" id="regUsername" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+        <label for="regPassword">Password</label>
+        <input type="password" id="regPassword" placeholder="Password" required>
+      </div>
+      <button type="submit" class="login-button">Register</button>
+    </form>
+    <button class="switch-button" onclick="window.location.href='/login.html'">Go to Login</button>
+  </div>
+
+  <script>
+    async function handleRegister(event) {
+      event.preventDefault();
+      const username = document.getElementById('regUsername').value;
+      const password = document.getElementById('regPassword').value;
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password})
+      });
+      if (response.ok) {
+        alert('Registration successful');
+        window.location.href = '/login.html';
+      } else {
+        alert('Registration failed: ' + (await response.text()));
+      }
+    }
+  </script>
+</body>
+</html>
